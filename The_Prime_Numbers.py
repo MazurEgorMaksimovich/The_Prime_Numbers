@@ -31,7 +31,13 @@ class Prime_Hand(cards.Hand):
         self.name = name
 
     def __str__(self):
-        rep = self.name + ":\t" + super(Prime_Hand, self).__str__()       
+        if self.cards:
+            ant = ""
+            for card in self.cards:
+                ant += str(card) + "  "
+        else:
+            ant = "<пусто>"
+        rep = self.name + ":  " + ant       
         return rep
 
 class Prime_Game:
@@ -97,6 +103,9 @@ class Prime_Game:
             player.clear()
         self.firstcard.clear()
         self.totalvalue = 0
+        self.deck.clear()
+        self.deck.populate()
+        self.deck.shuffle()
 
 def is_prime(n):
     if n >= 2:
@@ -118,8 +127,8 @@ def main():
         gui.msgbox('Игра продолжается до тех пор, пока не останется ни одного игрока, способного сделать ход. Победителем считается тот игрок, который походил последним.', TITLE, 'Далее', image=ICON)
         gui.msgbox('Стоимость различных карт: туз - единица, от 2 до 10 включительно соответствуют номиналу карты, валет - 11, дама - 12, король - 13.', TITLE, 'Я не робот.', image=ICON)
     names = []
-    number = games.ask_number("Сколько всего игроков? (1 - 4): ", 
-        low = 1, high = 4)
+    number = games.ask_number("Сколько всего игроков? (2 - 4): ", 
+        low = 2, high = 4)
     if number is None:
         exit()
     fields = ["Игрок"+str(i + 1) for i in range(number)]
